@@ -1,3 +1,12 @@
-# Environment files
+# Python
+__pycache__/
+*.pyc
+
+# Env & secrets
 .env
 *.env
+
+# Local data & indexes
+data/*.json
+index/*
+!index/.gitkeep
