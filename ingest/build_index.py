@@ -2,13 +2,10 @@ import json
 from pathlib import Path
 import chromadb
 from chromadb.utils import embedding_functions
-from dotenv import load_dotenv
-import os
+from src.utils import get_secret
 
-load_dotenv()
-OPENAI_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_KEY:
-    raise ValueError("❌ Missing OPENAI_API_KEY in .env")
+# Load API key
+OPENAI_KEY = get_secret("OPENAI_API_KEY")
 
 # Load data
 DATA_PATH = Path("data/topics.json")
@@ -27,8 +24,8 @@ collection = client.get_or_create_collection(
     )
 )
 
-# Ingest
-collection.delete(where={})  # clear old index
+# Rebuild index
+collection.delete(where={})
 for t in topics:
     text = f"{t['title']} ({t['created_at']})"
     collection.add(
