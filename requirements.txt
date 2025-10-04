@@ -1,0 +1,8 @@
+python-dotenv>=1.0.1
+requests>=2.32.3
+tqdm>=4.66.5
+pydantic>=2.8.2
+chromadb>=0.5.5
+openai>=1.44.0
+tiktoken>=0.7.0
+streamlit>=1.37.1
