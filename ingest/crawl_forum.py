@@ -6,7 +6,7 @@ BASE_URL = "https://gov.uniswap.org/latest.json"
 DATA_DIR = Path("data")
 DATA_DIR.mkdir(exist_ok=True)
 
-def fetch_recent_topics(months=6, limit=100):
+def fetch_recent_topics(months=6):
     cutoff = datetime.utcnow() - timedelta(days=30*months)
     resp = requests.get(BASE_URL)
     data = resp.json()
@@ -15,8 +15,13 @@ def fetch_recent_topics(months=6, limit=100):
     for t in data.get("topic_list", {}).get("topics", []):
         created = datetime.fromisoformat(t["created_at"].replace("Z",""))
         if created > cutoff:
-            topics.append(t)
-    return topics[:limit]
+            topics.append({
+                "id": t["id"],
+                "title": t["title"],
+                "created_at": t["created_at"],
+                "posts_count": t["posts_count"],
+            })
+    return topics
 
 if __name__ == "__main__":
     topics = fetch_recent_topics(months=6)
