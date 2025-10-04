@@ -16,9 +16,9 @@ def get_secret(key: str, st=None) -> str:
     # 2. Colab secrets
     try:
         from google.colab import userdata
-        if key in userdata:
+        if userdata.get(key) is not None:
             return userdata.get(key)
-    except ImportError:
+    except (ImportError, AttributeError):
         pass
 
     # 3. Environment
